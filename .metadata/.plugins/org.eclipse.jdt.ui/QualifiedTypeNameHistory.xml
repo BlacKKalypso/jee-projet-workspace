@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="com.crea.dev1.jee.ecole.model.beans.Inscrit"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="com.crea.dev1.jee.ecole.model.beans.Livre"/>
+<fullyQualifiedTypeName name="com.crea.dev1.jee.ecole.model.beans.UV"/>
+<fullyQualifiedTypeName name="com.crea.dev1.jee.ecole.model.beans.Eleve"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="com.crea.dev1.jee.ecole.model.dao.EleveDAO"/>
+<fullyQualifiedTypeName name="com.crea.dev1.jee.ecole.model.beans.Chambre"/>
+<fullyQualifiedTypeName name="com.crea.dev1.jee.ecole.model.dao.ChambreDAO"/>
+</qualifiedTypeNameHistroy>

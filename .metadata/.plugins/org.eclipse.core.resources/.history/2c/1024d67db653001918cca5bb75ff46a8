@@ -1,0 +1,66 @@
+package com.crea.dev1.jee.ecole.model.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.crea.dev1.jee.ecole.model.beans.Livre;
+import com.crea.dev1.jee.ecole.model.common.DBAction;
+
+public class LivreDAO {
+	public static Livre getLivreBycote(String cote) throws SQLException 
+	{
+		Livre livTemp = new Livre();
+		ResultSet res ;
+		String req = "SELECT * FROM livre WHERE cote = '"+cote+"' ";
+		// Connexion
+		DBAction.DBConnexion();//System.out.println(req);
+		// ex�cution de la requ�te et init
+		DBAction.setRes(DBAction.getStm().executeQuery(req));
+		while( DBAction.getRes().next() )
+		{	
+			// Creation de l'objet eleveTemp � travers le ResultSet BD
+			livTemp.setCote(DBAction.getRes().getString(1));
+			livTemp.setNum(DBAction.getRes().getString(2));
+			livTemp.setTitre(DBAction.getRes().getString(3));
+			livTemp.setDatepret(DBAction.getRes().getDate(4));
+			livTemp.afficheLivre();
+		}
+		// Fermeture de la connexion & statement & res
+		DBAction.DBClose();
+		// Retourner l'objet ElevTemp
+		return livTemp;
+	}
+	
+	public static ArrayList<Livre> getLivreByTitre(String liststitre) throws SQLException  
+	{
+		ArrayList<Livre> listLivreTitre = new ArrayList<Livre>();		
+		String req = "SELECT * FROM livre WHERE nom = '"+liststitre+"' ";
+
+		// Connexion
+		DBAction.DBConnexion();
+		
+		// execution de la requete et init
+		DBAction.setRes(DBAction.getStm().executeQuery(req));
+		// Creation de l'objet eleveTemp � travers le ResultSet BD
+		while( DBAction.getRes().next() )
+		{
+	
+			Livre livTemp = new Livre();
+			//Creation de l'objet eleveTemp � travers le ResultSet BD
+			livTemp.setCote(DBAction.getRes().getString(1));
+			livTemp.setNum(DBAction.getRes().getString(2));
+			livTemp.setTitre(DBAction.getRes().getString(3));
+			livTemp.setDatepret(DBAction.getRes().getDate(4));
+			listLivreTitre.add(livTemp);
+		}
+		for(int i =0; i<listLivreTitre.size();i++) {
+			listLivreTitre.get(i).afficheLivre();
+		}
+		// Fermeture de la connexion
+		DBAction.DBClose();
+		// Retourner l'objet ElevTemp
+		return listLivreTitre;
+	}
+
+}

@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+encoding//src/com/crea/dev1/jee/ecole/model/beans/Chambre.java=UTF-8
+encoding//src/com/crea/dev1/jee/ecole/model/common/DBAction.java=UTF-8
+encoding//src/com/crea/dev1/jee/ecole/model/dao/ChambreDAO.java=UTF-8
+encoding//src/com/crea/dev1/jee/ecole/model/dao/EleveDAO.java=UTF-8
+encoding//src/com/crea/dev1/jee/ecole/model/dao/InscritDAO.java=UTF-8

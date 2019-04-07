@@ -1,0 +1,156 @@
+package com.crea.dev1.jee.ecole.interf.control;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.*;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.crea.dev1.jee.ecole.model.beans.Eleve;
+import com.crea.dev1.jee.ecole.model.dao.EleveDAO;
+
+/**
+ * Servlet implementation class ControlServletPrincipal
+ */
+@WebServlet("/ControleurPrincipal")
+public class ControleurPrincipal extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private static boolean init = true;// mettre � false s'il s'agit de la partie test/ initialisation de la BD
+
+	/**
+	 * @see HttpServlet#HttpServlet() @
+	 */
+	public ControleurPrincipal() {
+		super();
+	}
+
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, SQLException {
+		String[] actionRequest = this.getActionRequest(request);
+		String action = actionRequest[0];
+		String actionValue = actionRequest[1];
+
+		String forward = null;
+
+		// Répartition des actions
+		switch (action) {
+		case ("index"):
+			ArrayList<Eleve> eleves = EleveDAO.getAllEleve();
+			request.setAttribute("eleves", eleves);
+			forward = "views/eleves/index.jsp";
+			break;
+		case ("show"):
+			String num = actionValue;
+			Eleve etemp = EleveDAO.getEleveByNum(num);
+			forward = "views/eleves/show.jsp";
+			break;
+		case ("add"):
+			forward = "views/eleves/add.jsp";
+			break;
+		case ("edit"):
+			num = actionValue;
+			etemp = EleveDAO.getEleveByNum(num);
+			request.setAttribute("eleve", etemp);
+
+			forward = "views/eleves/edit.jsp";
+			break;
+		default:
+			forward = "views/eleves/404.jsp";
+			break;
+		}
+
+		// Affichage de la jsp correspondante à l'action demandée avec RequestDispatcher
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/" + forward);
+		dispatcher.forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			processRequest(request, response);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+	/**
+	 * Méthode permettant de récupérer l'action et la valeur associé à cette action
+	 * de l'url.
+	 * 
+	 * Par exemple: Pour http://localhost:8080/InterfaceEasyJEE/users/edit/AGUE001
+	 * nous obtiendront un tableau avec à l'index 0 "edit" et a l'index 1 "AGUE001"
+	 *
+	 * @param request
+	 * @return String[]: [0]: action [1]: actionValue
+	 */
+
+	protected String[] getActionRequest(HttpServletRequest request) {
+
+		// Définition de l'action par défault et des autre variables
+		String action = "index";
+		String actionValue = null;
+		String[] returnValue = new String[2];
+
+		// Récupération de l'url du projet
+		// request.getRequestURI() retournera l'url complete
+		// p.ex(localhost:8080/InterfaceEasyJEE/user/add)
+		// request.getContextPath() retournera l'url du point d'entrée (p.ex:
+		// localhost:8080/InterfaceEasyJEE/)
+		// Nous allons supprimer l'url du point d'entrée de notre url complete
+		// Nous aurons ainsi uniquement le "path"
+		// Le path est la partie de l'url qui nous intéresse (p.ex: users/add/ )
+
+		String path = request.getRequestURI().substring(request.getContextPath().length() + 1);
+		System.out.println("Path: " + path);
+
+		String[] pathParts = path.split("/");
+		int nbPathParts = pathParts.length;
+		System.out.println("pathParts: " + Arrays.deepToString(pathParts));
+		System.out.println("nbPathParts: " + nbPathParts);
+
+		if (nbPathParts == 2) {
+			action = pathParts[1];
+		}
+
+		if (nbPathParts == 3) {
+			action = pathParts[1];
+			actionValue = pathParts[2];
+		}
+
+		returnValue[0] = action;
+		returnValue[1] = actionValue;
+
+		System.out.println("Action: " + action);
+		System.out.println("actionValue: " + actionValue);
+
+		return returnValue;
+
+	}
+
+	private void updStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String num = request.getParameter("eleveNum");
+		String nom = request.getParameter("Nom");
+		int no = Integer.parseInt(request.getParameter("no"));
+		int age = Integer.parseInt(request.getParameter("age"));
+		String adresse = request.getParameter("adresse");
+		
+		Eleve eleve = new Eleve(num, nom, no, age, adresse);
+	}
+}

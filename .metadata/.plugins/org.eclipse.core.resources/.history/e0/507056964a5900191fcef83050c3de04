@@ -1,0 +1,53 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<style>
+body {
+	background: #33cc99;
+	color: #fff;
+	font-family: 'Open Sans', sans-serif;
+}
+
+div{
+margin: 10px auto;
+}
+</style>
+<title>Edition eleve</title>
+</head>
+<body>
+<h2>Edition eleve dans la base de donnee</h2>
+<form method="post" action="" enctype="multipart/form-data">
+<div class="form-group">
+<label for="name">Num</label>
+<input type="text" name="num" id="num" value="" required/>
+</div>
+</form>
+<form method="post" action="" enctype="multipart/form-data">
+<div class="form-group">
+<label for="name">No</label>
+<input type="text" name="num" id="num" value="" required/>
+</div>
+</form>
+<form method="post" action="" enctype="multipart/form-data">
+<div class="form-group">
+<label for="name">Nom</label>
+<input type="text" name="num" id="num" value="" required/>
+</div>
+</form>
+<form method="post" action="" enctype="multipart/form-data">
+<div class="form-group">
+<label for="name">Age</label>
+<input type="text" name="num" id="num" value="" required/>
+</div>
+</form>
+<form method="post" action="" enctype="multipart/form-data">
+<div class="form-group">
+<label for="name">Adresse</label>
+<input type="text" name="num" id="num" value="" required/>
+</div>
+</form>
+</body>
+</html>

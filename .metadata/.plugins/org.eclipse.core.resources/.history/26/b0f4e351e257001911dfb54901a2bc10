@@ -1,0 +1,90 @@
+package com.crea.dev1.jee.ecole.interf.control;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Arrays;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.crea.dev1.jee.ecole.model.beans.Eleve;
+import com.crea.dev1.jee.ecole.model.common.DBAction;
+import com.crea.dev1.jee.ecole.model.dao.EleveDAO;
+
+/**
+ * Servlet implementation class ControlServletPrincipal
+ */
+@WebServlet("/ControleurPrincipal")
+public class ControleurPrincipal extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    private static boolean init = true;// mettre � false s'il s'agit de la partie test/ initialisation de la BD
+
+    /**
+     * @see HttpServlet#HttpServlet()
+     * @
+     */
+    public ControleurPrincipal() {
+        super();
+    }
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+
+    }
+
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            processRequest(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
+    }
+    
+    protected String[] getActionRequest(HttpServletRequest request) {
+    	String action = "index";
+    	String actionValue = null;
+    	String[] returnValue = new String[2];
+    	
+    	String path = request.getRequestURI().substring(request.getContextPath().length() + 1);
+    	System.out.println("Path: " + path);
+    	
+    	String[] pathParts = path.split("/");
+    	int nbPathParts = pathParts.length;
+    	System.out.println("pathParts: " + Arrays.deepToString(pathParts));
+    	System.out.println("nbPathParts: " + nbPathParts);
+    	
+    	if(nbPathParts == 2) {
+    		//ex users/add -> /1/2
+    		action = pathParts[1];
+    	}
+    	
+    	if(nbPathParts == 3) {
+    		action = pathParts[1];
+    		actionValue = pathParts[2];
+    	}
+    	
+    	returnValue[0] = action;
+    	returnValue[1] = actionValue;
+    	
+    	System.out.println("Action: " + action);
+    	System.out.println("actionValue: " + actionValue);
+    	
+    }
+}

@@ -1,0 +1,171 @@
+package com.crea.dev1.jee.ecole.model.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+
+import com.crea.dev1.jee.ecole.model.beans.Livre;
+import com.crea.dev1.jee.ecole.model.common.DBAction;
+
+public class LivreDAO {
+	public static Livre getLivreBycote(String cote) throws SQLException 
+	{
+		Livre livTemp = new Livre();
+		ResultSet res ;
+		String req = "SELECT * FROM livre WHERE cote = '"+cote+"' ";
+		// Connexion
+		DBAction.DBConnexion();//System.out.println(req);
+		// ex�cution de la requ�te et init
+		DBAction.setRes(DBAction.getStm().executeQuery(req));
+		while( DBAction.getRes().next() )
+		{	
+			// Creation de l'objet livTemp � travers le ResultSet BD
+			livTemp.setCote(DBAction.getRes().getString(1));
+			livTemp.setNum(DBAction.getRes().getString(2));
+			livTemp.setTitre(DBAction.getRes().getString(3));
+			livTemp.setDatepret(DBAction.getRes().getDate(4));
+			livTemp.afficheLivre();
+		}
+		// Fermeture de la connexion & statement & res
+		DBAction.DBClose();
+		// Retourner l'objet livTemp
+		return livTemp;
+	}
+	
+	public static ArrayList<Livre> getLivreByTitre(String liststitre) throws SQLException  
+	{
+		ArrayList<Livre> listLivreTitre = new ArrayList<Livre>();		
+		String req = "SELECT * FROM livre WHERE titre = '"+liststitre+"' ";
+
+		// Connexion
+		DBAction.DBConnexion();
+		
+		// execution de la requete et init
+		DBAction.setRes(DBAction.getStm().executeQuery(req));
+		// Creation de l'objet livTemp � travers le ResultSet BD
+		while( DBAction.getRes().next() )
+		{
+	
+			Livre livTemp = new Livre();
+			//Creation de l'objet livTemp � travers le ResultSet BD
+			livTemp.setCote(DBAction.getRes().getString(1));
+			livTemp.setNum(DBAction.getRes().getString(2));
+			livTemp.setTitre(DBAction.getRes().getString(3));
+			livTemp.setDatepret(DBAction.getRes().getDate(4));
+			listLivreTitre.add(livTemp);
+		}
+		for(int i =0; i<listLivreTitre.size();i++) {
+			listLivreTitre.get(i).afficheLivre();
+		}
+		// Fermeture de la connexion
+		DBAction.DBClose();
+		// Retourner l'objet livTemp
+		return listLivreTitre;
+	}
+	public static ArrayList<Livre> getLivreByNum(String listsnum) throws SQLException  
+	{
+		ArrayList<Livre> listLivreNum = new ArrayList<Livre>();		
+		String req = "SELECT * FROM livre WHERE num = '"+listsnum+"' ";
+
+		// Connexion
+		DBAction.DBConnexion();
+		
+		// execution de la requete et init
+		DBAction.setRes(DBAction.getStm().executeQuery(req));
+		// Creation de l'objet livTemp � travers le ResultSet BD
+		while( DBAction.getRes().next() )
+		{
+	
+			Livre livTemp = new Livre();
+			//Creation de l'objet livTemp � travers le ResultSet BD
+			livTemp.setCote(DBAction.getRes().getString(1));
+			livTemp.setNum(DBAction.getRes().getString(2));
+			livTemp.setTitre(DBAction.getRes().getString(3));
+			livTemp.setDatepret(DBAction.getRes().getDate(4));
+			listLivreNum.add(livTemp);
+		}
+		for(int i =0; i<listLivreNum.size();i++) {
+			listLivreNum.get(i).afficheLivre();
+		}
+		// Fermeture de la connexion
+		DBAction.DBClose();
+		// Retourner l'objet livTemp
+		return listLivreNum;
+	}
+
+	public static ArrayList<Livre> getLivreByDate(String listsdate) throws SQLException  
+	{
+		ArrayList<Livre> listLivreDate = new ArrayList<Livre>();		
+		String req = "SELECT * FROM livre WHERE datepret = '"+listsdate+"' ";
+
+		// Connexion
+		DBAction.DBConnexion();
+		
+		// execution de la requete et init
+		DBAction.setRes(DBAction.getStm().executeQuery(req));
+		// Creation de l'objet livTemp � travers le ResultSet BD
+		while( DBAction.getRes().next() )
+		{
+	
+			Livre livTemp = new Livre();
+			//Creation de l'objet livTemp � travers le ResultSet BD
+			livTemp.setCote(DBAction.getRes().getString(1));
+			livTemp.setNum(DBAction.getRes().getString(2));
+			livTemp.setTitre(DBAction.getRes().getString(3));
+			livTemp.setDatepret(DBAction.getRes().getDate(4));
+			listLivreDate.add(livTemp);
+		}
+		for(int i =0; i<listLivreDate.size();i++) {
+			listLivreDate.get(i).afficheLivre();
+		}
+		// Fermeture de la connexion
+		DBAction.DBClose();
+		// Retourner l'objet livTemp
+		return listLivreDate;
+	}
+	
+	public static int deleteLivreByCote(String cote) {
+		int result = -1;
+		DBAction.DBConnexion();
+		String req = "DELETE FROM livre WHERE cote = '"+cote+"' ";
+		try {
+			result = DBAction.getStm().executeUpdate(req);
+			System.out.println("Requete executee");	
+		} 
+		catch (SQLException ex)
+		{
+			result = - ex.getErrorCode();
+			System.out.println(ex.getMessage());	
+		}
+		System.out.println("["+req+"] Suppression : Valeur de result == "+result);
+		DBAction.DBClose();
+		return result;
+	}
+	
+	public static int updDateLivreByCote(Date datepret, String cote)  
+			throws SQLException
+	{
+		int result = -1;
+		DBAction.DBConnexion();
+		String req = "UPDATE livre SET datepret = '"+datepret+"' WHERE cote ='"+cote+"' ";
+		result = DBAction.getStm().executeUpdate(req);
+		System.out.println("Requete executee");	
+		
+		DBAction.DBClose();
+		return result;
+	}
+	
+	public static int updNumDateLivreByCote(String cote, Date datepret, String num)  
+			throws SQLException
+	{
+		int result = -1;
+		DBAction.DBConnexion();
+		String req = "UPDATE livre SET num = '"+num+"', datepret = '"+datepret+"' WHERE cote ='"+cote+"'";
+		result = DBAction.getStm().executeUpdate(req);
+		System.out.println("Requete executee");	
+		
+		DBAction.DBClose();
+		return result;
+	}
+}

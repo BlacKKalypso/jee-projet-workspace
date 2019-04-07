@@ -1,0 +1,54 @@
+package com.crea.dev1.jee.ecole.model.test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import com.crea.dev1.jee.ecole.model.beans.Chambre;
+
+class ChambreDAOTest {
+	Chambre c_ref1 = new Chambre(1, "LAURENCY005", 350.25f);
+	Chambre c_ref2 = new Chambre(2, "", 400.55f);
+	Chambre c_ref3 = new Chambre(3, "HUGO002", 350.25f);
+	
+	@Test
+	void testGetChambreByNo() {
+		
+	}
+
+	@Test
+	void testGetChambreByNum() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetChambreByPrix() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testDeleteChambreByNo() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testUpdNumChambreByNo() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testUpdPrixChambreByNo() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testAddChambre() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetAllChambre() {
+		fail("Not yet implemented");
+	}
+
+}

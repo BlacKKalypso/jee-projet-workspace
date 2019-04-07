@@ -1,0 +1,29 @@
+package com.crea.dev1.jee.ecole.model.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.crea.dev1.jee.ecole.model.beans.Chambre;
+import com.crea.dev1.jee.ecole.model.common.DBAction;
+
+public class ChambreDAO {
+	public static Chambre getChambreByNo(int no) throws SQLException{
+		Chambre chambTemp = new Chambre();
+		ResultSet res;
+		String req = "SELECT no, num, prix FROM chambre WHERE no = '" +no+"' ";
+		//Connexion
+		DBAction.setRes(DBAction.getStm().executeQuery(req));
+		while( DBAction.getRes().next() )
+		{	
+			// Creation de l'objet eleveTemp a travers le ResultSet BD
+			chambTemp.setNo(DBAction.getRes().getInt(1));
+			chambTemp.setNum(DBAction.getRes().getString(2));
+			chambTemp.setPrix(DBAction.getRes().getFloat(3));
+			chambTemp.afficheChambre();
+		}
+		// Fermeture de la connexion & statement & res
+		DBAction.DBClose();
+		// Retourner l'objet ElevTemp
+		return chambTemp;
+	}
+}

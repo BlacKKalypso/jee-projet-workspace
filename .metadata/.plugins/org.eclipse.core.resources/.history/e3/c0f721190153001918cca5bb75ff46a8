@@ -1,0 +1,66 @@
+package com.crea.dev1.jee.ecole.model.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.crea.dev1.jee.ecole.model.beans.Eleve;
+import com.crea.dev1.jee.ecole.model.beans.Inscrit;
+import com.crea.dev1.jee.ecole.model.common.DBAction;
+
+public class InscritDAO {
+	public static Inscrit getInscritByCode(String code) throws SQLException 
+	{
+		Inscrit inscTemp = new Inscrit();
+		ResultSet res ;
+		String req = "SELECT * FROM inscrit WHERE code = '"+code+"' ";//SELECT * FROM Eleve where num = \""+num+"\""
+		// Connexion
+		DBAction.DBConnexion();//System.out.println(req);
+		// ex�cution de la requete et init
+		DBAction.setRes(DBAction.getStm().executeQuery(req));
+		while( DBAction.getRes().next() )
+		{	
+			// Creation de l'objet eleveTemp � travers le ResultSet BD
+			inscTemp.setCode(DBAction.getRes().getString(1));
+			inscTemp.setNum(DBAction.getRes().getString(2));
+			inscTemp.setNote(DBAction.getRes().getFloat(3));
+			inscTemp.afficheInscrit();
+		}
+		// Fermeture de la connexion & statement & res
+		DBAction.DBClose();
+		// Retourner l'objet ElevTemp
+		return inscTemp;
+	}
+	
+	public static ArrayList<Inscrit> getInscritByNum(String listnums) throws SQLException {
+		ArrayList<Inscrit> listEleveNom = new ArrayList<Inscrit>();		
+		String req = "SELECT * FROM eleve WHERE nom = '"+listnums+"' ";
+
+		// Connexion
+		DBAction.DBConnexion();//System.out.println(req);
+		// ex�cution de la requ�te et init
+		DBAction.setRes(DBAction.getStm().executeQuery(req));
+		// Creation de l'objet eleveTemp � travers le ResultSet BD
+		while( DBAction.getRes().next() )
+		{
+	/**		Eleve elevTemp = new Eleve(DBAction.getRes().getString(1),
+					DBAction.getRes().getInt(2), DBAction.getRes().getString(3), 
+					DBAction.getRes().getInt(4), DBAction.getRes().getString(5));*/
+			Eleve elevTemp = new Eleve();
+			//Creation de l'objet eleveTemp � travers le ResultSet BD
+			elevTemp.setNum(DBAction.getRes().getString(1));
+			elevTemp.setNo(DBAction.getRes().getInt(2));
+			elevTemp.setNom(DBAction.getRes().getString(3));
+			elevTemp.setAge(DBAction.getRes().getInt(4));
+			elevTemp.setAdresse(DBAction.getRes().getString(5));
+			listEleveNom.add(elevTemp);
+		}
+		for(int i =0; i<listEleveNom.size();i++) {
+			listEleveNom.get(i).affiche();
+		}
+		// Fermeture de la connexion
+		DBAction.DBClose();
+		// Retourner l'objet ElevTemp
+		return listEleveNom;
+	}
+}

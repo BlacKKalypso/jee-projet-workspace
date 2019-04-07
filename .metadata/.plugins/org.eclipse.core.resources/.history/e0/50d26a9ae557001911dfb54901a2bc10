@@ -1,0 +1,34 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+         pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Affiche Eleve par Numero</title>
+</head>
+<body>
+<div align="center">
+    <h1 class="pgtitre">Donner le numero de l'eleve</h1>
+    <form name="id" class="form" action="ControleurPrincipal?idaction=getelevebyname"
+          method="POST">
+        <table>
+            <tr>
+                <td width="120px">Numero Eleve :</td>
+                <td><input type="text" name="numelev" id="numelev" /></td>
+
+                <td width="120px"><input type="submit" value="Valider"
+                                         class="submit" /></td>
+        </table>
+    </form>
+</div>
+<br>
+<br>
+<hr>
+<div id="footer">
+    <p id="copyright">
+        © <strong>Taha RIDENE</strong> | Projet Ecole | <span
+            id="footer_links"><a href="mailto:taha.ridene@rtit-consulting.com">taha.ridene@rtit-consutling.com</a></span>
+    </p>
+</div>
+</body>
+</html>

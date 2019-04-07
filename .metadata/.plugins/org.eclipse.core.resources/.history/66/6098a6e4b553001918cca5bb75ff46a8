@@ -1,0 +1,33 @@
+package com.crea.dev1.jee.ecole.model.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.crea.dev1.jee.ecole.model.beans.Livre;
+import com.crea.dev1.jee.ecole.model.common.DBAction;
+
+public class LivreDAO {
+	public static Livre getLivreBycote(String cote) throws SQLException 
+	{
+		Livre livTemp = new Livre();
+		ResultSet res ;
+		String req = "SELECT * FROM livre WHERE cote = '"+cote+"' ";
+		// Connexion
+		DBAction.DBConnexion();//System.out.println(req);
+		// ex�cution de la requ�te et init
+		DBAction.setRes(DBAction.getStm().executeQuery(req));
+		while( DBAction.getRes().next() )
+		{	
+			// Creation de l'objet eleveTemp � travers le ResultSet BD
+			livTemp.setCote(DBAction.getRes().getString(1));
+			livTemp.setNum(DBAction.getRes().getString(2));
+			livTemp.setTitre(DBAction.getRes().getString(3));
+			livTemp.setDatepret(DBAction.getRes().getDate(4));
+			livTemp.afficheLivre();
+		}
+		// Fermeture de la connexion & statement & res
+		DBAction.DBClose();
+		// Retourner l'objet ElevTemp
+		return livTemp;
+	}
+}

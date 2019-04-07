@@ -1,0 +1,134 @@
+package com.crea.dev1.jee.ecole.interf.control;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.crea.dev1.jee.ecole.model.beans.Eleve;
+import com.crea.dev1.jee.ecole.model.common.DBAction;
+import com.crea.dev1.jee.ecole.model.dao.EleveDAO;
+
+/**
+ * Servlet implementation class ControlServletPrincipal
+ */
+@WebServlet("/ControleurPrincipal")
+public class ControleurPrincipal extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    private static boolean init = true;// mettre � false s'il s'agit de la partie test/ initialisation de la BD
+
+    /**
+     * @see HttpServlet#HttpServlet()
+     * @
+     */
+    public ControleurPrincipal() {
+        super();
+    }
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+
+        String idaction = null;
+        String forward = "accueil.jsp";
+        /** R�cup�rer le parametre idaction */
+        idaction = request.getParameter("idaction");
+        /**
+         * architecturer le code prenant en consid�ration l'action Ce code l� :
+         * correspond � la specification foncionnelle
+         */
+        if (init == false) {
+            //TODO: Define initDB()
+
+            init = true;
+        }
+        if (idaction == null) {
+            //ADD TYPE OF ERROR AS PARAMETER
+            forward = "error.jsp";
+        } else {
+            switch (idaction) {
+                case ("getelevebyname"):
+                    /***
+                     * Objectif : R�cup�rer un �l�ve par son nom ? 1- r�cup�rer le nom de l'el�ve �
+                     * partir des param�tres envoy�s par le formulaire 2- instancier une DAO d'�l�ve
+                     * et appeler la methode ad�quate (direct par les m�thodes statiques) 3-
+                     * r�cup�rer le r�sultat de la DAO 4- forwarder vers la vue ad�quate (selon le
+                     * r�sultat de la DAO
+                     */
+                    // STEP 1
+                    String numeleve = request.getParameter("numelev");
+                    if (numeleve.equals("") || numeleve.equals(null)) {
+                        // LOG ERROR DE RECUPERATION
+                        // Distpatching vers la page ad�quate
+                    }
+                    // STEP2
+                    else {
+                        // Resup�ration de l'�l�ve
+                        Eleve etemp = EleveDAO.getEleveByNum(numeleve);
+                        // si �l�ve existant ou pas
+                        if (etemp == null) {
+                            // forward avec un r�sultat : el�ve inexistant
+                            forward = "error.jsp";
+                        } else {
+                            // forward avec les attribut du bean eleve integr� dans la page jsp resultante
+                            // oubien avec le bean en question interg� en tanque objet
+                            request.setAttribute("age", etemp.getAge());
+                            request.setAttribute("nom", etemp.getNom());
+                            request.setAttribute("adresse", etemp.getAdresse());
+                            // FORWARD VERS UNE PAGE .JSP QUI DOIT CONTENIR LES
+                            //ATTRIBUTS PASSES DANS LA REQUETE
+                            forward = "eleveaffiche.jsp";
+                        }
+                    }
+                    break;
+
+                case ("auth"):
+                    // TO DO
+                    break;
+
+                case ("lsteleve"):
+                    // TO DO
+                    break;
+                case ("addeleve"):
+                    // TO DO
+                    break;
+                case ("deleteeleve"):
+                    // TO DO
+                    break;
+                case (""):
+                    // to do
+                    break;
+                default:
+                    // to do
+                    break;
+            }
+        }
+        RequestDispatcher dispatcher = request.getRequestDispatcher(forward);
+        dispatcher.forward(request, response);
+    }
+
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            processRequest(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
+    }
+}

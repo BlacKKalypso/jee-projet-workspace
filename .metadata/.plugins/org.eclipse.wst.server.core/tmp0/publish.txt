@@ -1,0 +1,3 @@
+#Tomcat publish data
+#Sun Apr 07 22:29:47 CEST 2019
+org.eclipse.jst.j2ee.server\:ModelEcole=WEB-INF/lib/ModelEcole.jar
